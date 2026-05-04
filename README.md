@@ -1,13 +1,16 @@
 # gitea-serup
 
-Self-hosted [Gitea](https://gitea.com) instance using Docker Compose, with a PostgreSQL backend.
+Self-hosted [Gitea](https://gitea.com) instance using Docker Compose, with a PostgreSQL backend and Nginx reverse proxy.
 
 ## Services
 
 | Service | Image | Port |
 |---------|-------|------|
-| Gitea | `localhost/gitea-serup/gitea:1.26.1` | 3000 (web), 222 (SSH) |
+| Nginx (web-server) | `localhost/gitea-serup/web-server:1.27` | 80 (HTTP) |
+| Gitea | `localhost/gitea-serup/gitea:1.26.1` | 222 (SSH) |
 | PostgreSQL | `localhost/gitea-serup/postgres:14` | — |
+
+Gitea's web UI is only accessible through Nginx — port 3000 is not exposed directly.
 
 ## Prerequisites
 
@@ -23,6 +26,7 @@ docker buildx bake
 # Build a single image
 docker buildx bake gitea
 docker buildx bake postgres
+docker buildx bake web-server
 
 # Build and push to registry
 docker buildx bake --push
@@ -31,15 +35,7 @@ docker buildx bake --push
 GITEA_VERSION=1.27.0 docker buildx bake
 ```
 
-## Run
-
-```bash
-docker compose up -d
-```
-
-Gitea will be available at [http://localhost:3000](http://localhost:3000).
-
-## Configuration
+## Setup
 
 Copy the sample env file and edit it before starting the stack:
 
@@ -56,6 +52,14 @@ cp .env.sample .env
 | `DB_NAME` | `gitea` | Database name (shared by Gitea and PostgreSQL) |
 
 > **Note:** Change `DB_PASSWORD` before deploying to production.
+
+## Run
+
+```bash
+docker compose up -d
+```
+
+Gitea will be available at [http://localhost](http://localhost).
 
 ## Data Persistence
 

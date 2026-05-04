@@ -1,0 +1,18 @@
+[req]
+default_bits = 2048
+distinguished_name = req_distinguished_name
+prompt             = no
+
+[req_distinguished_name]
+C="US"
+ST="California"
+L="San Francisco"
+O="Example Organization"
+OU="Engineering"
+emailAddress="admin@example.com"
+CN="localhost"
+
+[v3_req]
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment
+extendedKeyUsage = serverAuth

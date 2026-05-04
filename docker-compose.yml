@@ -1,4 +1,14 @@
 services:
+  web-server:
+    image: localhost/gitea-serup/web-server:latest
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - gitea
+    depends_on:
+      - server
+
   server:
     image: docker.gitea.com/gitea:1.26.1
     container_name: gitea
@@ -19,7 +29,6 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "3000:3000"
       - "222:22"
     depends_on:
       - db

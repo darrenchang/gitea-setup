@@ -6,12 +6,16 @@ variable "POSTGRES_VERSION" {
   default = "14"
 }
 
+variable "NGINX_VERSION" {
+  default = "1.27"
+}
+
 variable "REGISTRY" {
   default = "localhost/gitea-serup"
 }
 
 group "default" {
-  targets = ["gitea", "postgres"]
+  targets = ["gitea", "postgres", "web-server"]
 }
 
 target "gitea" {
@@ -30,6 +34,16 @@ target "postgres" {
   tags = [
     "${REGISTRY}/postgres:${POSTGRES_VERSION}",
     "${REGISTRY}/postgres:latest",
+  ]
+  platforms = ["linux/amd64", "linux/arm64"]
+}
+
+target "web-server" {
+  context    = "./web-server"
+  dockerfile = "Dockerfile"
+  tags = [
+    "${REGISTRY}/web-server:${NGINX_VERSION}",
+    "${REGISTRY}/web-server:latest",
   ]
   platforms = ["linux/amd64", "linux/arm64"]
 }
