@@ -6,7 +6,7 @@ Self-hosted [Gitea](https://gitea.com) instance using Docker Compose, with a Pos
 
 | Service | Image | Port |
 |---------|-------|------|
-| Nginx (web-server) | `localhost/gitea-serup/web-server:1.27` | 80 (HTTP) |
+| Nginx (web-server) | `localhost/gitea-serup/web-server:1.27` | 80 (HTTP→redirect), 443 (HTTPS) |
 | Gitea | `localhost/gitea-serup/gitea:1.26.1` | 222 (SSH) |
 | PostgreSQL | `localhost/gitea-serup/postgres:14` | — |
 
@@ -59,7 +59,9 @@ cp .env.sample .env
 docker compose up -d
 ```
 
-Gitea will be available at [http://localhost](http://localhost).
+Gitea will be available at [https://localhost](https://localhost). HTTP on port 80 redirects to HTTPS automatically.
+
+> **Note:** The SSL certificate is self-signed. Your browser will show a security warning — this is expected for local deployments. Update `web-server/certs/openssl.cnf` with your domain details before building.
 
 ## Data Persistence
 

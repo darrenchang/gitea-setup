@@ -25,7 +25,6 @@ target "gitea" {
     "${REGISTRY}/gitea:${GITEA_VERSION}",
     "${REGISTRY}/gitea:latest",
   ]
-  platforms = ["linux/amd64", "linux/arm64"]
 }
 
 target "postgres" {
@@ -35,7 +34,6 @@ target "postgres" {
     "${REGISTRY}/postgres:${POSTGRES_VERSION}",
     "${REGISTRY}/postgres:latest",
   ]
-  platforms = ["linux/amd64", "linux/arm64"]
 }
 
 target "web-server" {
@@ -45,5 +43,4 @@ target "web-server" {
     "${REGISTRY}/web-server:${NGINX_VERSION}",
     "${REGISTRY}/web-server:latest",
   ]
-  platforms = ["linux/amd64", "linux/arm64"]
 }
